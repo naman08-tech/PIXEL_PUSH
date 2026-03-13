@@ -10,10 +10,10 @@ clean_and_flag_task:
     {{
       "vitals": [
         {{"name": "HRV", "value": 150, "status": "Abnormal"}},
-        {{"name": "Temperature", "value": 98.6, "status": "Normal"}}
-        {{"name": "HR", "value": 98.6, "status": "Abnormal"}}
-        {{"name": "Blood Oxygen", "value": 70, "status": "Normal"}}
-        {{"name": "Blood Pressure", "value": 230/70, "status": "Abnormal"}}
+        {{"name": "Temperature", "value": 98.6, "status": "Normal"}},
+        {{"name": "HR", "value": 98.6, "status": "Abnormal"}},
+        {{"name": "Blood Oxygen", "value": 70, "status": "Normal"}},
+        {{"name": "Blood Pressure", "value": 230/70, "status": "Abnormal"}},
         {{"name": "Activity Status", "value": "high", "status": "High"}}
       ],
       "abnormality_detected": true
@@ -53,4 +53,6 @@ execute_response_task:
   expected_output: >
     A log entry of the action taken (e.g., "Emergency Services Called" or "Notification Sent") 
     along with the exact message transmitted to the API.
+    Make sure to use the notification_tool, pass Latitude, Longitude and a health summary to the notification tool.
   agent: emergency_dispatcher
+  context: [clean_and_flag_task, analyze_abnormalities_task]

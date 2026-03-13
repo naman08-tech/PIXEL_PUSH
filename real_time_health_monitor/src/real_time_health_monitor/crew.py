@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from pydantic import BaseModel
 from typing import List
+from real_time_health_monitor.tools.notification_tool import EmergencyNotificationTool
 
 # --- Pydantic Models ---
 class VitalSign(BaseModel):
@@ -26,6 +27,8 @@ class Agent2Output(BaseModel):
 class RealTimeHealthMonitor(): # Updated class name to match project
     """RealTimeHealthMonitor crew orchestration"""
 
+    notification_tool = EmergencyNotificationTool()
+
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
@@ -39,7 +42,7 @@ class RealTimeHealthMonitor(): # Updated class name to match project
 
     @agent
     def emergency_dispatcher(self) -> Agent:
-        return Agent(config=self.agents_config['emergency_dispatcher'], verbose=True)
+        return Agent(config=self.agents_config['emergency_dispatcher'], tools=[self.notification_tool], verbose=True, allow_delegation=False)
 
     @task
     def clean_and_flag_task(self) -> Task:
