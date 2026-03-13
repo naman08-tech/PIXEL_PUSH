@@ -1,8 +1,10 @@
 clean_and_flag_task:
   description: >
     Process the input: {vitals_input}. 
-    The value for motion will be already mentioned in {vitals_input}
-    Compare against thresholds (HRV: 45-80, Temperature: 97-99, HR: 65-95, SpO2: 65-99).
+    Ignore the values for: Record ID, Timestamp, Latitude, Longitude
+    The value for Activity Status will be already mentioned in {vitals_input} as High or Low so just output that. 
+    The status of Activity is always equal to it's value.
+    Compare against thresholds (HRV: 45-80, Temperature: 36.1-37.2, HR: 65-95, Blood oxygen: 65-99, Blood Pressure: 90/60-120/80).
   expected_output: >
     A JSON-formatted string exactly like this:
     {{
@@ -10,7 +12,9 @@ clean_and_flag_task:
         {{"name": "HRV", "value": 150, "status": "Abnormal"}},
         {{"name": "Temperature", "value": 98.6, "status": "Normal"}}
         {{"name": "HR", "value": 98.6, "status": "Abnormal"}}
-        {{"name": "motion", "value": "high", "status": "High"}}
+        {{"name": "Blood Oxygen", "value": 70, "status": "Normal"}}
+        {{"name": "Blood Pressure", "value": 230/70, "status": "Abnormal"}}
+        {{"name": "Activity Status", "value": "high", "status": "High"}}
       ],
       "abnormality_detected": true
     }}
