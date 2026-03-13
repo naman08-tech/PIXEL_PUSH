@@ -1,0 +1,52 @@
+clean_and_flag_task:
+  description: >
+    Process the input: {vitals_input}. 
+    The value for motion will be already mentioned in {vitals_input}
+    Compare against thresholds (HRV: 45-80, Temperature: 97-99, HR: 65-95, SpO2: 65-99).
+  expected_output: >
+    A JSON-formatted string exactly like this:
+    {{
+      "vitals": [
+        {{"name": "HRV", "value": 150, "status": "Abnormal"}},
+        {{"name": "Temperature", "value": 98.6, "status": "Normal"}}
+        {{"name": "HR", "value": 98.6, "status": "Abnormal"}}
+        {{"name": "motion", "value": "high", "status": "High"}}
+      ],
+      "abnormality_detected": true
+    }}
+  agent: data_validator
+
+analyze_abnormalities_task:
+  description: >
+    Review the JSON output provided by the Data Validator. 
+    1. If 'abnormality_detected' is false, return "Status: Normal".
+    2. If true, cross-reference the abnormal vitals with the 'motion' value and 
+       the duration of the abnormality.
+    3. Determine if the state is physiological (exercise/stress) or pathological (emergency).
+    4. List the top 3 most likely reasons for the state.
+  expected_output: >
+    A JSON-formatted string:
+    {{
+      "assessment": "Normal" OR "Abnormal",
+      "findings": [
+        {{"reason": "Reason 1", "confidence": "85%"}},
+        {{"reason": "Reason 2", "confidence": "10%"}},
+        {{"reason": "Reason 3", "confidence": "5%"}}
+      ],
+      "logic_summary": "Short explanation of why the AI reached this conclusion for the user dashboard."
+    }}
+  agent: medical_analyst
+
+execute_response_task:
+  description: >
+    1. Review the Top 3 reasons and confidence levels from the Medical Analyst.
+    2. Identify the 'High Risk' vs 'Normal Activity' probability.
+    3. CRITICAL LOGIC:
+       - If 'High Risk' > 70% confidence: Call the Emergency Services API immediately 
+         with the vitals summary and user location. Also notify the emergency contacts of the user.
+       - If 'Normal Activity' is more probable: Send a dashboard notification. 
+         Wait 30 seconds. If no user cancelation is detected, proceed to emergency call.
+  expected_output: >
+    A log entry of the action taken (e.g., "Emergency Services Called" or "Notification Sent") 
+    along with the exact message transmitted to the API.
+  agent: emergency_dispatcher
