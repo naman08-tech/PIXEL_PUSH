@@ -1,0 +1,6 @@
+Emergency Services Called: 
+Message transmitted to API: {
+"health_summary": "Heart Rate Variability: 24.93 (Abnormal), Body Temperature: 37.2 (Normal), Heart Rate: 131 (Abnormal), Blood Oxygen: 100 (Normal), Blood Pressure: 116/90 (Abnormal), Activity Status: low (low), Top 3 reasons and confidence levels: Dehydration (60%), Physical Stress (20%), Cardiovascular Issue (20%)",
+"latitude": "37.7749",
+"longitude": "-122.4194"
+}

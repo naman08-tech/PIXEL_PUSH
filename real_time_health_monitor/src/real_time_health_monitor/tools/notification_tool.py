@@ -7,10 +7,10 @@ class EmergencyNotificationTool(BaseTool):
     description: str = "Calls and messages a pre-set emergency contact with the user's location."
 
     def _run(self, latitude: str, longitude: str, health_summary: str) -> str:
-        account_sid = ''
-        auth_token = ''
-        twilio_number = ''
-        target_phone = ''
+        account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+        auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+        twilio_number = os.getenv('TWILIO_PHONE_NUMBER')
+        target_phone = os.getenv('EMERGENCY_CONTACT')
 
         client = Client(account_sid, auth_token)
 
