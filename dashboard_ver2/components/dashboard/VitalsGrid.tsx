@@ -9,6 +9,9 @@ interface VitalsGridProps {
     heartRate: number[];
     bloodOxygen: number[];
     temperature: number[];
+    respiratoryRate: number[];
+    bloodGlucose: number[];
+    stressLevel: number[];
     systolic: number[];
     diastolic: number[];
     hrv: number[];
@@ -36,6 +39,24 @@ export function VitalsGrid({ vitals, vitalsHistory, activityHistory }: VitalsGri
         value={vitals.temperature}
         unit="°C"
         history={vitalsHistory.temperature}
+      />
+      <VitalCard
+        type="respiratoryRate"
+        value={vitals.respiratoryRate}
+        unit="bpm"
+        history={vitalsHistory.respiratoryRate}
+      />
+      <VitalCard
+        type="bloodGlucose"
+        value={vitals.bloodGlucose}
+        unit="mg/dL"
+        history={vitalsHistory.bloodGlucose}
+      />
+      <VitalCard
+        type="stressLevel"
+        value={vitals.stressLevel}
+        unit=""
+        history={vitalsHistory.stressLevel}
       />
       <VitalCard
         type="bloodPressure"

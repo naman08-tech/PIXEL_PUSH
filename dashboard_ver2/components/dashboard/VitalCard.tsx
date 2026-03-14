@@ -14,7 +14,7 @@ import { VitalStatus, ActivityEntry } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface VitalCardProps {
-  type: 'heartRate' | 'bloodOxygen' | 'temperature' | 'bloodPressure' | 'hrv' | 'activity';
+  type: 'heartRate' | 'bloodOxygen' | 'temperature' | 'bloodPressure' | 'hrv' | 'activity' | 'respiratoryRate' | 'bloodGlucose' | 'stressLevel';
   value: number | string;
   secondaryValue?: number;
   unit: string;
@@ -70,6 +70,36 @@ const vitalConfig = {
     getStatus: (value: number): VitalStatus => {
       if (value >= 20 && value <= 100) return 'Normal';
       if (value >= 10 && value < 20) return 'Warning';
+      return 'Critical';
+    },
+  },
+  respiratoryRate: {
+    icon: Gauge,
+    name: 'Respiratory Rate',
+    normalRange: '12-20 BPM',
+    getStatus: (value: number): VitalStatus => {
+      if (value >= 12 && value <= 20) return 'Normal';
+      if ((value > 20 && value <= 30) || (value >= 8 && value < 12)) return 'Warning';
+      return 'Critical';
+    },
+  },
+  bloodGlucose: {
+    icon: Droplets,
+    name: 'Blood Glucose',
+    normalRange: '70-140 mg/dL',
+    getStatus: (value: number): VitalStatus => {
+      if (value >= 70 && value <= 140) return 'Normal';
+      if ((value > 140 && value <= 199) || (value >= 60 && value < 70)) return 'Warning';
+      return 'Critical';
+    },
+  },
+  stressLevel: {
+    icon: Activity,
+    name: 'Stress Level',
+    normalRange: '0-40',
+    getStatus: (value: number): VitalStatus => {
+      if (value >= 0 && value <= 40) return 'Normal';
+      if (value > 40 && value <= 70) return 'Warning';
       return 'Critical';
     },
   },

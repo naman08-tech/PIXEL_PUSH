@@ -1,12 +1,15 @@
 export interface VitalsData {
   heartRate: number;
   bloodOxygen: number;
+  respiratoryRate: number;
   temperature: number;
   bloodPressure: {
     systolic: number;
     diastolic: number;
   };
   hrv: number;
+  bloodGlucose: number;
+  stressLevel: number;
   activityStatus: 'Resting' | 'Walking' | 'Running' | 'Sleeping';
   timestamp: string;
 }
